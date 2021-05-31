@@ -1,11 +1,11 @@
 ################################################
 function AppValidation {
     param (
-        $name,
+        $id,
         $path
     )
     
-    Write-Host "Verify $name : " -ForegroundColor Yellow -NoNewline
+    Write-Host "Verify $id : " -ForegroundColor Yellow -NoNewline
     
     $installed = (Test-Path $path);
     if (-Not $installed) 
