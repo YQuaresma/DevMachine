@@ -1,4 +1,18 @@
-Write-Host "* Installing"  -ForegroundColor Blue
+Write-Host "Installing Winget"                                 -ForegroundColor Cyan
+Write-Host "*************************************************" -ForegroundColor Cyan
+
+$path = "$env:localappdata\Microsoft\WindowsApps\winget.exe"
+
+$installed = (Test-Path $path);
+if ($installed) 
+{    
+    Write-Host "Already Installed."  -ForegroundColor Green
+    Write-Host
+    return
+}
+
+Write-Host "Installing Feature" -ForegroundColor Yellow
+
 $tempFolder = Join-Path -Path $PSScriptRoot -ChildPath 'InstallWinget'
 New-Item $tempFolder -ItemType Directory -ea 0 | Out-Null
 
@@ -12,9 +26,9 @@ $desktopAppInstaller = @{
 $vcLibsX86 = @{
     source      = 'https://aka.ms/Microsoft.VCLibs.x86.14.00.Desktop.appx'
     savedName   = 'Microsoft.VCLibs.x86.14.00.Desktop.appx'
-    savedFolder = $tempFolder
+    savedFolder = $tempFolder 
 }
-  
+
 $vcLibs64 = @{
     source      = 'https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx'
     savedName   = 'Microsoft.VCLibs.x64.14.00.Desktop.appx'
@@ -31,7 +45,7 @@ foreach ($file in $files)
         if (-Not (Test-Path ($file.fileFullName)))
         {
             Write-Host " => Downloading $($file.source)" -ForegroundColor Blue
-            Invoke-WebRequest -Uri $file.source -OutFile $file.fileFullName
+            Invoke-WebRequest -Uri $file.source -OutFile $file.fileFullName 
         }
     } 
     catch { throw "Error downloading $($file.source) ." }
