@@ -1,13 +1,20 @@
 #============================================================================================================
 function Install-Choco-Package  {
     param (
-        $id
+        $id,
+        $params
     )
     
     Write-Host "Installing " $id                                   -ForegroundColor Cyan
     Write-Host "*************************************************" -ForegroundColor Cyan
-    choco install $id --yes
-    
+    Write-Host $params
+     if ($null -eq $params)
+     {
+        choco install $id --yes
+     }
+     else {        
+        choco install $id --yes --params "${params}"
+     }
     Write-Host
 }
 
@@ -53,24 +60,45 @@ Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Ins
 .\Install.Winget.ps1
 .\Install.Chocolatey.ps1
 
-Install-Choco-Package -id 1Password
-Install-Choco-Package -id powertoys
-
-Install-Choco-Package -id notepadplusplus
-Install-Choco-Package -id winmerge
-Install-Choco-Package -id ccleaner
-
-Install-Choco-Package -id Zoom
-Install-Choco-Package -id onedrive
-Install-Choco-Package -id everything
-Install-Choco-Package -id treesizefree
-
+Write-Host "*************************************************" -ForegroundColor Blue
+Write-Host "* Productive Tools                               " -ForegroundColor Blue
+Write-Host "*************************************************" -ForegroundColor Blue
 Install-Choco-Package -id firefox
 Install-Choco-Package -id googlechrome
+Install-Choco-Package -id onedrive
+Install-Choco-Package -id Zoom
+Install-Choco-Package -id 1Password
 
+Write-Host "*************************************************" -ForegroundColor Blue
+Write-Host "*Support Tools                                   " -ForegroundColor Blue
+Write-Host "*************************************************" -ForegroundColor Blue
+Install-Choco-Package -id 7zip
+Install-Choco-Package -id ccleaner
+Install-Choco-Package -id everything
+Install-Choco-Package -id notepadplusplus
+Install-Choco-Package -id powertoys
+Install-Choco-Package -id sysinternals  -params "/InstallDir:${env:ProgramFiles(x86)}\Sysinternals"
+Install-Choco-Package -id treesizefree
+Install-Choco-Package -id winmerge
+
+Write-Host "*************************************************" -ForegroundColor Blue
+Write-Host "* Dev Tools                                      " -ForegroundColor Blue
+Write-Host "*************************************************" -ForegroundColor Blue
+Install-Choco-Package -id chocolateygui
+Install-Choco-Package -id choco-cleaner
 Install-Choco-Package -id git
+Install-Choco-Package -id gsudo
+Install-Choco-Package -id Linqpad
+Install-Choco-Package -id insomnia-rest-api-client
+Install-Choco-Package -id nswagstudio 
+Install-Choco-Package -id Postman
+Install-Choco-Package -id pwsh
 Install-Choco-Package -id sourcetree
 
+
+Write-Host "*************************************************" -ForegroundColor Blue
+Write-Host "* IDE and Cloud Tools                            " -ForegroundColor Blue
+Write-Host "*************************************************" -ForegroundColor Blue
 Install-Choco-Package -id microsoft-windows-terminal
 Install-Choco-Package -id microsoftazurestorageexplorer
 Install-Choco-Package -id azure-cli
