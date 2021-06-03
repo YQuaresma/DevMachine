@@ -53,8 +53,6 @@ Write-Host "*************************************************" -ForegroundColor 
 Write-Host "* Starting Developer Machine Setup               " -ForegroundColor Blue
 Write-Host "*************************************************" -ForegroundColor Blue
 
-Install-Windows-Feature -featureName "Microsoft-Windows-Subsystem-Linux"    #Install WSL2
-Install-Windows-Feature -featureName "VirtualMachinePlatform"               #Install WSL2
 Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Install Sandbox
 
 .\Install.Winget.ps1
@@ -94,7 +92,7 @@ Install-Choco-Package -id nswagstudio
 Install-Choco-Package -id Postman
 Install-Choco-Package -id pwsh
 Install-Choco-Package -id sourcetree
-
+Install-Choco-Package -id docker-desktop
 
 Write-Host "*************************************************" -ForegroundColor Blue
 Write-Host "* IDE and Cloud Tools                            " -ForegroundColor Blue
