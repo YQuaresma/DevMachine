@@ -71,13 +71,14 @@ Write-Host "*************************************************" -ForegroundColor 
 Write-Host "*Support Tools                                   " -ForegroundColor Blue
 Write-Host "*************************************************" -ForegroundColor Blue
 Install-Choco-Package -id 7zip
-Install-Choco-Package -id ccleaner
 Install-Choco-Package -id everything
 Install-Choco-Package -id notepadplusplus
 Install-Choco-Package -id powertoys
+Install-Choco-Package -id putty.install
 Install-Choco-Package -id sysinternals  -params "/InstallDir:${env:ProgramFiles(x86)}\Sysinternals"
 Install-Choco-Package -id treesizefree
 Install-Choco-Package -id winmerge
+
 
 Write-Host "*************************************************" -ForegroundColor Blue
 Write-Host "* Dev Tools                                      " -ForegroundColor Blue
@@ -104,6 +105,7 @@ Install-Choco-Package -id azure-cosmosdb-emulator
 Install-Choco-Package -id visualstudio2019community
 Install-Choco-Package -id vscode
 Install-Choco-Package -id ssms
+Install-Choco-Package -id resharper-ultimate-all -params "/PerMachine /NoCpp /NoTeamCityAddin"
 
 RefreshEnv
 
