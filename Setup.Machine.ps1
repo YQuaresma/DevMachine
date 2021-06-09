@@ -34,23 +34,6 @@ function Install-Windows-Feature {
     
     Write-Host
 }
-#============================================================================================================
-function New-Dev-Folder {
-param (
-        [string] $folder,
-        [string] $envVar = ""
-    )
-    
-    if ($envVar -ne "")
-    {
-        [Environment]::SetEnvironmentVariable($envVar , $folder.TrimEnd('\')  , 'Machine')
-    }
-
-    [System.IO.Directory]::CreateDirectory($folder.TrimEnd('\')) | Out-Null
-    
-    Write-Host "Creating Folder : " -NoNewline
-    Write-Host $folder -ForegroundColor Green
-}
 
 #============================================================================================================
 
@@ -60,16 +43,14 @@ Write-Host "* Starting Developer Machine Setup               " -ForegroundColor 
 Write-Host "*************************************************" -ForegroundColor Blue
 Write-Host
 
-New-Dev-Folder -folder $devRoot -envVar "DevRoot";
-New-Dev-Folder -folder "$devRoot\Source" -envVar "DevSource";
-
+.\Install\EnvFolders.ps1 -DevRoot $DevRoot
 Copy-Item "$PSScriptRoot\Support" -Destination $devRoot -Recurse -Force
 Copy-Item "$PSScriptRoot\Install" -Destination $devRoot -Recurse -Force
 
-Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Install Sandbox
 
 .\Install\Winget.ps1
 .\Install\ChocoPackages.ps1
+Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Install Sandbox
 
 Write-Host
 RefreshEnv
