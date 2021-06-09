@@ -92,7 +92,7 @@ Install-Choco-Package -id insomnia-rest-api-client
 Install-Choco-Package -id nswagstudio 
 Install-Choco-Package -id Postman
 Install-Choco-Package -id pwsh
-Install-Choco-Package -id sourcetree
+Install-Choco-Package -id smartgit
 Install-Choco-Package -id docker-desktop
 
 Write-Host "*************************************************" -ForegroundColor Blue
