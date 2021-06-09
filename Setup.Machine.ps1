@@ -68,8 +68,8 @@ Copy-Item "$PSScriptRoot\Support" -Destination $devRoot -Recurse -Force
 
 Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Install Sandbox
 
-.\Install\Setup.Winget.ps1
-.\Install\Setup.ChocoPackages.ps1
+.\Install\Winget.ps1
+.\Install\ChocoPackages.ps1
 
 Write-Host
 RefreshEnv
