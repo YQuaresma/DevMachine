@@ -1,3 +1,4 @@
+Write-Host "*************************************************" -ForegroundColor Cyan
 Write-Host "Installing Winget"                                 -ForegroundColor Cyan
 Write-Host "*************************************************" -ForegroundColor Cyan
 
