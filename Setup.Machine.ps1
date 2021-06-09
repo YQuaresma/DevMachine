@@ -62,9 +62,9 @@ Write-Host
 
 New-Dev-Folder -folder $devRoot -envVar "DevRoot";
 New-Dev-Folder -folder "$devRoot\Source" -envVar "DevSource";
-New-Dev-Folder -folder "$devRoot\Support";
 
 Copy-Item "$PSScriptRoot\Support" -Destination $devRoot -Recurse -Force
+Copy-Item "$PSScriptRoot\Install" -Destination $devRoot -Recurse -Force
 
 Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Install Sandbox
 
