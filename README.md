@@ -1,9 +1,9 @@
 # Setup Developer Machine
 
 ## Disclaimer
-This repo is intended to help me when I need to set up a fresh development machine and keep record of all applications and set up I usually execute manually.
+This repo is intended to help me when I need to set up a fresh development machine and keep record of all applications and settings I usually execute manually.
 
-Feel free to use but I strongly suggest to read all powershell scripts to certify they are safe for you to execute.
+Feel free to use it but I strongly suggest to read all powershell scripts to certify they are safe for you to execute.
 
 **ALWAYS READ THE CODE YOU ARE USING FROM 3RD-PARTIES**
 
@@ -21,6 +21,7 @@ Feel free to use but I strongly suggest to read all powershell scripts to certif
 
 
 ## Usage
+Run a powershel session with elevated privileges
 
 Setup basic packages and it can be executed multiple times
 ```powershell
