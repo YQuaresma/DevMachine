@@ -46,6 +46,7 @@ Write-Host
 .\Install\EnvFolders.ps1 -DevRoot $DevRoot
 Copy-Item "$PSScriptRoot\Support" -Destination $devRoot -Recurse -Force
 Copy-Item "$PSScriptRoot\Install" -Destination $devRoot -Recurse -Force
+Copy-Item "$PSScriptRoot\Docker"  -Destination $devRoot -Recurse -Force
 
 
 .\Install\Winget.ps1

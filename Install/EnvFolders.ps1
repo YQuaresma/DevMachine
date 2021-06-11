@@ -28,3 +28,6 @@ New-Dev-Folder -folder $devRoot -envVar "DevRoot";
 New-Dev-Folder -folder "$devRoot\Source" -envVar "DevSource";
 New-Dev-Folder -folder "$devRoot\Support";
 New-Dev-Folder -folder "$devRoot\Install";
+New-Dev-Folder -folder "$devRoot\Docker";
+New-Dev-Folder -folder "$devRoot\Docker\Volumes\MSSQL";
+New-Dev-Folder -folder "$devRoot\Docker\Volumes\SEQ";
