@@ -80,7 +80,6 @@ Write-Host "*************************************************" -ForegroundColor 
 Install-Choco-Package -id microsoft-windows-terminal
 Install-Choco-Package -id microsoftazurestorageexplorer
 Install-Choco-Package -id azure-cli
-Install-Choco-Package -id azure-cosmosdb-emulator
 Install-Choco-Package -id visualstudio2019community
 Install-Choco-Package -id vscode
 Install-Choco-Package -id ssms
