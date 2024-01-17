@@ -31,3 +31,4 @@ New-Dev-Folder -folder "$devRoot\Install";
 New-Dev-Folder -folder "$devRoot\Docker";
 New-Dev-Folder -folder "$devRoot\Docker\Volumes\MSSQL";
 New-Dev-Folder -folder "$devRoot\Docker\Volumes\SEQ";
+New-Dev-Folder -folder "$devRoot\Docker\Volumes\Azurite";
