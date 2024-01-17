@@ -1,18 +1,30 @@
-winget install -e --id Mozilla.Thunderbird
-winget install -e --id Mozilla.Firefox
-winget install -e --id Zoom.Zoom
-winget install -e --id voidtools.Everything.Lite
-winget install -e --id Notepad++.Notepad++
-winget install -e --id Microsoft.PowerToys
-winget install -e --id JAMSoftware.TreeSize.Free
-winget install -e --id WinMerge.WinMerge
-winget install -e --id Git.Git
-winget install -e --id Postman.Postman
-winget install -e --id Docker.DockerDesktop
-winget install -e --id Microsoft.Azure.StorageExplorer
-winget install -e --id Microsoft.SQLServerManagementStudio
-winget install -e --id Microsoft.VisualStudioCode
-winget install -e --id Microsoft.VisualStudio.2022.Community
-winget install -e --id JetBrains.Toolbox
-winget install -e --id Atlassian.Sourcetree
-winget install -e --id Google.Chrome
+#============================================================================================================
+function WingetInstall {
+    param (
+            [string] $id            
+        )
+    
+    Write-Host "** Installing : $id" -ForegroundColor Blue
+    winget install -e --id $id
+    Write-Host
+}
+
+Write-Host
+WingetInstall "Mozilla.Thunderbird"
+WingetInstall "Mozilla.Firefox"
+WingetInstall "Zoom.Zoom"
+WingetInstall "voidtools.Everything.Lite"
+WingetInstall "Notepad++.Notepad++"
+WingetInstall "Microsoft.PowerToys"
+WingetInstall "JAMSoftware.TreeSize.Free"
+WingetInstall "WinMerge.WinMerge"
+WingetInstall "Git.Git"
+WingetInstall "Postman.Postman"
+WingetInstall "Docker.DockerDesktop"
+WingetInstall "Microsoft.Azure.StorageExplorer"
+WingetInstall "Microsoft.SQLServerManagementStudio"
+WingetInstall "Microsoft.VisualStudioCode"
+WingetInstall "Microsoft.VisualStudio.2022.Community"
+WingetInstall "JetBrains.Toolbox"
+WingetInstall "Atlassian.Sourcetree"
+WingetInstall "Google.Chrome"

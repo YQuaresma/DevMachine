@@ -4,57 +4,29 @@ param
   [string]
   $DevRoot
 )
-
 #============================================================================================================
-function Install-Windows-Feature {
-    param (
-        $featureName
-    )
-
-    Write-Host "Installing " $featureName                          -ForegroundColor Cyan
-    Write-Host "*************************************************" -ForegroundColor Cyan
-    
-    $result = Get-WindowsOptionalFeature -FeatureName $featureName -Online
-
-    if ($null -eq $result) 
-    {
-        Write-Host "Feature Name is invalid ["$featureName"]"  -ForegroundColor Red
-        return
-    }
-
-    if ($result.State -eq "Enabled")
-    {
-        Write-Host "Already Installed."  -ForegroundColor Green
-        Write-Host
-        return
-    }
-        
-    Write-Host "Installing Feature" -ForegroundColor Yellow
-    Enable-WindowsOptionalFeature -FeatureName $featureName -Online -NoRestart
-    
-    Write-Host
-}
-
-#============================================================================================================
-
 Write-Host
 Write-Host "*************************************************" -ForegroundColor Blue
 Write-Host "* Starting Developer Machine Setup               " -ForegroundColor Blue
 Write-Host "*************************************************" -ForegroundColor Blue
-Write-Host
+Write-Host 
 
-.\Install\EnvFolders.ps1 -DevRoot $DevRoot
-Copy-Item "$PSScriptRoot\Support" -Destination $devRoot -Recurse -Force
-Copy-Item "$PSScriptRoot\Install" -Destination $devRoot -Recurse -Force
-Copy-Item "$PSScriptRoot\Docker"  -Destination $devRoot -Recurse -Force
+Write-Host "** Creating Folder: $DevRoot\Docker" -ForegroundColor Blue
+Copy-Item "$PSScriptRoot\Docker"  -Destination "$DevRoot" -Recurse -Force 
+New-Item -ItemType Directory -ErrorAction SilentlyContinue -Path "$DevRoot\Docker\Volumes\MSSQL"
+New-Item -ItemType Directory -ErrorAction SilentlyContinue -Path "$DevRoot\Docker\Volumes\Azurite"
 
+Write-Host "** Creating Folder: $DevRoot\Install" -ForegroundColor Blue
+Copy-Item "$PSScriptRoot\Install" -Destination "$DevRoot" -Recurse -Force
+
+Write-Host "** Creating Folder: $DevRoot\Source" -ForegroundColor Blue
+New-Item -ItemType Directory -ErrorAction SilentlyContinue -Path "$DevRoot\Source"
+
+Write-Host "** Creating Folder: $DevRoot\Support" -ForegroundColor Blue
+Copy-Item "$PSScriptRoot\Support" -Destination "$DevRoot" -Recurse -Force
+Write-Host 
 
 .\Install\Winget.ps1
-.\Install\ChocoPackages.ps1
-Install-Windows-Feature -featureName "Containers-DisposableClientVM"        #Install Sandbox
-
-Write-Host
-RefreshEnv
 
 Write-Host
 Write-Host "*************************************************" -ForegroundColor Blue
