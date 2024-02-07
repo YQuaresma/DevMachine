@@ -11,14 +11,9 @@ Feel free to use it but I strongly suggest to read all powershell scripts to cer
 
 1. Download repo to a temporary folder
 2. Execute Setup.Machine.ps1. It will:
-    * Create Environment Variables 
     * Create Development Folders
     * Copy support files related to Docker and Resharper
-    * Install Windows Sandbox
-    * Install WSL2 Ubuntu
-    * Install Chocolatey
     * Install applications focused on C# Development.
-
 
 ## Usage
 Run a powershel session with elevated privileges
@@ -27,17 +22,10 @@ Setup basic packages and it can be executed multiple times
 ```powershell
     .\Setup.Machine.ps1
 ```
-
 Development Root Folder is C:\Development
 ```powershell
     .\Setup.Machine.ps1 -$DevRoot 'C:\Development'
 ```
-
-## Support Powershell Scripts
-
-### Install.Chocolatey.ps1
-### Install.Winget.ps1
-### Install.WSL2.ps1
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
