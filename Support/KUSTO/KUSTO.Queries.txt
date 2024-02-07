@@ -1,0 +1,208 @@
+customEvents 
+| where name contains "Services.Aggregators.UberEats.OrderProcessed" 
+| where customDimensions.["Country Code"] == "jp" 
+| sort by timestamp desc 
+
+customEvents 
+| where name contains "Services.Aggregators.UberEats.OrderDenied" 
+| where customDimensions.["Country Code"] == "jp" 
+| sort by timestamp desc customEvents 
+| where name contains "Services.Aggregators.UberEats.OrderCancelled" 
+| where customDimensions.["Country Code"] == "jp" 
+| sort by timestamp desc
+
+// ------------------------------
+// UberOrderId details
+// ------------------------------
+customEvents
+| where ['timestamp'] >= datetime('2023-05-15') and ['timestamp'] <= datetime('2023-05-31')
+| extend CountryCode = tostring(customDimensions.["Country Code"])
+| extend uberId = tostring(customDimensions.["External Order Id"])
+| where name == "Services.Aggregators.UberEats.OrderDetailsReceived"
+| where uberId in ("15ccd699-2ba3-4a18-9498-7d04cabca57c")
+
+
+customEvents
+| where ['timestamp'] >= datetime('2023-05-15') and ['timestamp'] <= datetime('2023-05-31')
+| extend CountryCode = tostring(customDimensions.["Country Code"])
+| extend uberId = tostring(customDimensions.["External Order Id"])
+| where name == "Services.Aggregators.UberEats.OrderDetailsReceived"
+| where uberId in ("15ccd699-2ba3-4a18-9498-7d04cabca57c", "254d9114-d252-4cac-a376-0cc923398c94", "f46fd4d7-eba6-4a95-81f8-bc9bdb8ef801", "ba251b1f-3876-48d7-86dd-6cb282d01c8c", "7fb3f458-7f17-43e3-8a85-66c14a626a4b", "476cffbb-cdc1-4915-afdc-7c1487ec1864")
+
+// ------------------------------
+// Single UberOrderId details
+// ------------------------------
+customEvents
+| extend countryCode = toupper(customDimensions["Country Code"])
+| extend details = todynamic(tostring(customDimensions.["Request Details"]))
+| extend service = tostring(customDimensions.["Service name"])
+| extend event = tostring(customDimensions.["Event description"])
+| extend exception = todynamic(tostring(customDimensions.Exception))
+| extend msg = tostring(exception.Message)
+| extend store = todynamic(details.store)
+| extend storeUberId = iif(isnull(details.store.id), tostring(todynamic(details).StoreId), tostring(details.store.id))
+| extend storeno = tostring(store.external_reference_id)
+| extend uberId = tostring(customDimensions["External Order Id"])
+| extend orderId = iif(isnull(customDimensions["Order ID"]), tostring(details.external_reference_id), tostring(customDimensions["Order ID"]))
+| extend cart = todynamic(details.cart)
+| extend items = todynamic(cart.items)
+| extend payment = todynamic(details.payment)
+| extend charges = todynamic(payment.charges)
+| extend eater = todynamic(details.eater)
+| extend location = todynamic(details.eater.delivery.location)
+| where service == "Aggregators.UberEats"
+| where countryCode == 'NL'
+| where uberId == 'cc55cf69-7759-4db2-92ef-37bf79b48911'
+| project timestamp, service,  event, uberId, orderId, storeUberId, storeno, msg,exception, location, location.unit_number, tostring(items), tostring(charges)
+| order by uberId, timestamp asc
+
+
+
+// ------------------------------
+// Investigation
+// ------------------------------
+customEvents
+| extend countryCode = toupper(customDimensions["Country Code"])
+| extend details = todynamic(tostring(customDimensions.["Request Details"]))
+| extend service = tostring(customDimensions.["Service name"])
+| extend event = tostring(customDimensions.["Event description"])
+| extend exception = todynamic(tostring(customDimensions.Exception))
+| extend msg = tostring(exception.Message)
+| extend store = todynamic(details.store)
+| extend storeUberId = iif(isnull(details.store.id), tostring(todynamic(details).StoreId), tostring(details.store.id))
+| extend storeno = tostring(store.external_reference_id)
+| extend uberId = tostring(customDimensions["External Order Id"])
+| extend orderId = iif(isnull(customDimensions["Order ID"]), tostring(details.external_reference_id), tostring(customDimensions["Order ID"]))
+| extend cart = todynamic(details.cart)
+| extend items = todynamic(cart.items)
+| extend payment = todynamic(details.payment)
+| extend charges = todynamic(payment.charges)
+| extend eater = todynamic(details.eater)
+| extend location = todynamic(details.eater.delivery.location)
+| where service == "Aggregators.UberEats"
+| where event == 'OrderDetailsReceived'
+| where countryCode == 'NL'
+| where uberId == 'f3a13e0b-4a95-4069-be0f-d32db8232502' or uberId == 'cc55cf69-7759-4db2-92ef-37bf79b48911' or uberId == '13948c32-6e04-4055-822f-8e102f2f57c0' or uberId == 'dd7a3403-fde1-4b78-b81b-a98a6c16cc38' or uberId == 'd7a056e4-fe86-42c2-b042-fdb8c132d646' or uberId == 'ef820c79-ca33-4eda-aa46-e10910c2ba9b'
+| project timestamp, service,  event, uberId, orderId, storeUberId, storeno, msg,exception, location, location.unit_number, tostring(items), tostring(charges)
+| order by uberId, timestamp asc
+
+
+
+
+
+
+
+// ------------------------------
+// List Cancelled Orders
+// ------------------------------
+customEvents
+| extend countryCode = toupper(customDimensions["Country Code"])
+| extend uberId = customDimensions["External Order Id"]
+| extend orderId = customDimensions["Order ID"]
+| extend requestDetails = todynamic(tostring(customDimensions['Request Details']))
+| extend details = requestDetails.details
+| extend reason = requestDetails.reason
+| where name == "Services.Aggregators.UberEats.OrderCancelled" 
+| where countryCode == 'NL'
+//| project timestamp, countryCode, uberId, orderId, details, reason, customDimensions
+| order by timestamp asc
+
+// ------------------------------
+// List Processed Orders
+// ------------------------------
+customEvents
+| extend countryCode = toupper(customDimensions["Country Code"])
+| extend uberId = customDimensions["External Order Id"]
+| extend orderId = customDimensions["Order ID"]
+| extend requestDetails = todynamic(tostring(customDimensions['Request Details']))
+| extend details = requestDetails.details
+| extend reason = requestDetails.reason
+| where name == "Services.Aggregators.UberEats.OrderProcessed" 
+| where countryCode == 'NL'
+//| project timestamp, countryCode, uberId, orderId, details, reason, customDimensions 
+| order by timestamp desc
+
+// ------------------------------
+// Count Failed Orders
+// ------------------------------
+customEvents
+| extend countryCode = toupper(customDimensions["Country Code"])
+| extend requestDetails = todynamic(tostring(customDimensions['Request Details']))
+| extend reason = tostring(requestDetails.reason)
+| where name == "Services.Aggregators.UberEats.OrderCancelled" 
+| where countryCode == 'NL'
+| summarize Count=count() by reason
+
+// ------------------------------
+// Count Processed Orders
+// ------------------------------
+customEvents
+| extend countryCode = toupper(customDimensions["Country Code"])
+| extend reason = 'PROCESSED'
+| where name == "Services.Aggregators.UberEats.OrderProcessed" 
+| where countryCode == 'NL'
+| summarize Count=count() by reason
+
+
+// ------------------------------
+// Unable to transform
+// ------------------------------
+app("dpe-prod-ai-phx-aue").customEvents
+| where ['timestamp'] >= datetime('2023-04-30T14:00:00Z') and ['timestamp'] <= datetime('2023-05-31T13:59:59Z')
+| extend EventName_ = tostring(customDimensions.["Event description"]) 
+| extend CountryCode_ = tostring(customDimensions.["Country Code"])
+| extend DenyReason = todynamic(tostring(customDimensions["Request Details"])).reason.explanation
+| where CountryCode_ in ('nl')
+| where name contains "Services.Aggregators.UberEats"
+| where EventName_ in ("OrderDenied")
+
+
+app("dpe-prod-ai-phx-aue").customEvents
+| where ['timestamp'] >= datetime('2023-04-30T14:00:00Z') and ['timestamp'] <= datetime('2023-05-31T13:59:59Z')
+| extend EventName_ = tostring(customDimensions.["Event description"]) 
+| extend CountryCode_ = tostring(customDimensions.["Country Code"])
+| extend OrderId = tostring(customDimensions["External Order Id"])
+| extend DenyReason = todynamic(tostring(customDimensions["Request Details"])).reason.explanation
+| where CountryCode_ in ('nl')
+| where name contains "Services.Aggregators.UberEats"
+| where EventName_ in ("OrderDenied")
+| where DenyReason in ("Unable to transform order")
+
+
+customEvents
+| where name contains "Services.Aggregators.UberEats.TransformFailed"
+| where ['timestamp'] >= datetime('2023-05-01') and ['timestamp'] <= datetime('2023-05-02')
+| extend StackTraceString = todynamic(tostring(customDimensions["Exception"])).StackTraceString
+
+
+customEvents
+| where name contains "Services.Aggregators.UberEats.TransformFailed"
+| where ['timestamp'] >= datetime('2023-05-15') and ['timestamp'] <= datetime('2023-05-31')
+| extend CountryCode = tostring(customDimensions.["Country Code"])
+| extend ExceptionStackTraceString = todynamic(tostring(customDimensions["Exception"])).StackTraceString
+| extend ExceptionStackTrace = todynamic(tostring(customDimensions["Exception"])).StackTrace
+| extend ExceptionMessage = todynamic(tostring(customDimensions["Exception"])).Message
+| extend ExceptionSource = todynamic(tostring(customDimensions["Exception"])).Source
+//| where ExceptionSource == "Dominos.Services.Aggregators.UberEats.App"
+| where ExceptionSource == "Dominos.Services.Common.Tools"
+
+
+
+
+
+customEvents
+| where name contains "Services.Aggregators.UberEats.TransformFailed"
+| where ['timestamp'] >= datetime('2023-05-15') and ['timestamp'] <= datetime('2023-05-31')
+| extend CountryCode = tostring(customDimensions.["Country Code"])
+| extend OrderId = tostring(customDimensions.["External Order Id"])
+| extend ExceptionStackTraceString = todynamic(tostring(customDimensions["Exception"])).StackTraceString
+| extend ExceptionStackTrace = todynamic(tostring(customDimensions["Exception"])).StackTrace
+| extend ExceptionMessage = todynamic(tostring(customDimensions["Exception"])).Message
+| extend ExceptionSource = todynamic(tostring(customDimensions["Exception"])).Source
+//| where ExceptionSource == "Dominos.Services.Aggregators.UberEats.App"
+| where ExceptionSource == "Dominos.Services.Common.Tools"
+//| where ExceptionMessage = "Polly timeout has been reached."
+
+
+
+
